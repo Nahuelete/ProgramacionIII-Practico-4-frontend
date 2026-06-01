@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Prueba API</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <div class="layout">
+    
+        <main class="main">
+
+            <div class="header">
+                <h1>Gestión de Alumnos</h1>
+                <p>Panel administrativo para consultar y administrar alumnos mediante API REST.</p>
+            </div>
+
+            <div class="card hero-card">
+                <h2>📚 Sistema Académico</h2>
+                <p>Visualizá, buscá y administrá alumnos desde una interfaz basica conectada al backend.</p>
+            </div>
+
+            <div class="card">
+                <h2>🔍 Buscar Alumno</h2>
+
+                <div class="actions">
+                    <input id="legajoBusqueda" type="number" placeholder="Ingresar legajo">
+                    <button onclick="obtenerAlumnosLegajo()" class="btn btn-primary">Buscar</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>➕ Nuevo Alumno</h2>
+
+                <div class="actions">
+                    <button class="btn btn-success">Crear Alumno</button>
+
+                    <button onclick="obtenerAlumnos()" class="btn btn-primary">
+                        Obtener Listado
+                    </button>
+                </div>
+            </div>
+
+
+            <div class="card">
+                <h2>👨‍🎓 Listado de Alumnos</h2>
+
+                <div class="table-container">
+                    <p style="margin-bottom:15px; color:#666;">
+                        Hacé clic en <strong>Editar</strong> para modificar los datos directamente desde la fila del alumno.
+                    </p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Legajo</th>
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>Edición</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="tablaAlumnos"></tbody>
+                    </table>
+                </div>
+
+                <ul id="listaAlumnos"></ul>
+            </div>
+
+        </main>
+    
+    </div>
+
+    <script src="/js/crud.js"></script>
+</body>
+</html>
