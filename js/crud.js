@@ -116,8 +116,13 @@ function mostrarEditarAlumno(legajo, boton) {
 
 async function actualizarAlumno(legajo) {
     try {
-        const nombre = document.getElementById(`nombre-${legajo}`).value;
-        const apellido = document.getElementById(`apellido-${legajo}`).value;
+        const nombre = document.getElementById(`nombre-${legajo}`).value.trim();
+        const apellido = document.getElementById(`apellido-${legajo}`).value.trim();
+
+        if (!nombre || !apellido) {
+            alert('El nombre y apellido no pueden estar vacíos');
+            return;
+        }
 
         const response = await fetch(
             `http://localhost:3000/alumnos/${legajo}`,
@@ -126,21 +131,23 @@ async function actualizarAlumno(legajo) {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    nombre,
-                    apellido
-                })
+                body: JSON.stringify({ nombre, apellido })
             }
         );
 
         const data = await response.json();
 
-        alert(data.msg);
+        if (!response.ok) {
+            alert(`Error: ${data.msg}`);
+            return;
+        }
 
+        alert(data.msg);
         obtenerAlumnos();
 
     } catch (error) {
-        console.error(error);
+        console.error('Error al actualizar alumno:', error);
+        alert('No se pudo conectar con el servidor');
     }
 }
 
