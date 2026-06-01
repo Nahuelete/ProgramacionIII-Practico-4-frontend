@@ -1,3 +1,4 @@
+//Obtener todos los alumnos
 async function obtenerAlumnos() {
     try {
         const response = await fetch(
@@ -31,6 +32,7 @@ async function obtenerAlumnos() {
     }
 }
 
+//Buscar alumno por legajo
 async function obtenerAlumnosLegajo() {
     try {
         const legajo =
@@ -66,19 +68,18 @@ async function obtenerAlumnosLegajo() {
     }
 }
 
+//Eliminar alumno
 async function eliminarAlumno(legajo) {
     try {
         const response = await fetch(
-            `http://localhost:3000/alumnos/${legajo}`,
+            `http://localhost:3000/alumnos/${String(legajo)}`,  // forzar string
             {
                 method: 'DELETE'
             }
         );
 
         const data = await response.json();
-
         alert(data.msg);
-
         obtenerAlumnos();
 
     } catch (error) {
@@ -86,6 +87,7 @@ async function eliminarAlumno(legajo) {
     }
 }
 
+//Actualizar alumno
 function mostrarEditarAlumno(legajo, boton) {
 
     const fila = boton.closest('tr');
@@ -134,6 +136,62 @@ async function actualizarAlumno(legajo) {
         const data = await response.json();
 
         alert(data.msg);
+
+        obtenerAlumnos();
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+//Agregar alumno
+function abrirModalAlumno() {
+    document.getElementById('modalAlumno').style.display = 'flex';
+
+    const hoy = new Date().toISOString().split('T')[0];
+
+    document.getElementById('fechaAltaNuevo').value = hoy;
+}
+
+function cerrarModalAlumno() {
+    document.getElementById('modalAlumno').style.display = 'none';
+    document.querySelectorAll('#modalAlumno input').forEach(input => input.value = '');
+}
+
+async function agregarAlumno() {
+    try {
+        const legajo = +document.getElementById('legajoNuevo').value;
+        const nombre = document.getElementById('nombreNuevo').value;
+        const apellido = document.getElementById('apellidoNuevo').value;
+        const email = document.getElementById('emailNuevo').value;
+        const fechaAlta = document.getElementById('fechaAltaNuevo').value;
+        const modificacion = document.getElementById('fechaAltaNuevo').value;
+        const isActive = true;
+
+        const response = await fetch(
+            `http://localhost:3000/alumnos`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    legajo,
+                    nombre,
+                    apellido,
+                    email,
+                    fechaAlta,
+                    modificacion,
+                    isActive
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        alert(data.msg);
+
+        cerrarModalAlumno();
 
         obtenerAlumnos();
 
